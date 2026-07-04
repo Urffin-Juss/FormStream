@@ -7,5 +7,5 @@ import applications
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('applications/', include(applications.urls)),
+    path('applications/', include("applications.urls", namespace="applications")),
 ]

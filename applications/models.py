@@ -27,7 +27,7 @@ STATUS_CHOICES = [
 
 
 class Application(models.Model):
-    operations_type = models.CharField(
+    operation_type = models.CharField(
         max_length=255,
         choices=OPERATION_TYPE_CHOICES,
         default=OPERATION_TYPE_CHOICES[0][0],
@@ -38,7 +38,12 @@ class Application(models.Model):
         default=PAYMENT_TYPE_CHOICES[0][0]
     )
 
-    status = models.CharField(choices=STATUS_CHOICES, default='new', verbose_name='Status')
+    status = models.CharField(
+        max_length=32,
+        choices=STATUS_CHOICES,
+        default="new",
+        verbose_name="Статус",
+    )
     client_name = models.TextField(
         max_length=255,
     )

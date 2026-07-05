@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-PAYMENT_TYPE_CHOICES = [
+PAYMENT_TYPES= [
         ('cash', 'Наличные'),
         ('card', 'Банковская карта'),
         ('transfer', 'Банковский перевод'),
@@ -9,7 +9,7 @@ PAYMENT_TYPE_CHOICES = [
         ('crypto', 'Криптовалюта'),
     ]
 
-OPERATOR_CHOICES = [
+OPERATIONS_CHOICES = [
     ('new_client', 'Новый клиент'),
     ('rename', 'Переименовать клиента'),
     ('add_adress', 'Добавить адресс'),
@@ -31,13 +31,13 @@ STATUS_CHOICES = [
 class Application(models.Model):
     operations_type = models.CharField(
         max_length=255,
-        choices=settings.OPERATIONS_CHOICES,
-        default=settings.OPERATIONS_CHOICES[0][0],
+        choices=OPERATIONS_CHOICES,
+        default=OPERATIONS_CHOICES[0][0],
     )
     payment_type = models.CharField(
         max_length=255,
-        choices=settings.PAYMENT_TYPES,
-        default=settings.PAYMENT_TYPES[0][0]
+        choices=PAYMENT_TYPES,
+        default=PAYMENT_TYPES[0][0]
     )
 
     status = models.CharField(choices=STATUS_CHOICES, default='new', verbose_name='Status')

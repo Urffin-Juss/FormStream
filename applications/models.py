@@ -55,5 +55,6 @@ class Application(models.Model):
     contact_phone = models.CharField(blank=False, null=False, max_length=255)
     delivery_start_time = models.TimeField(blank=False, null=False)
     delivery_end_time = models.TimeField(blank=False, null=False)
+    has_break = models.BooleanField(default=False)
     break_start_time = models.TimeField(blank=True, null=True)
     break_end_time = models.TimeField(blank=True, null=True)

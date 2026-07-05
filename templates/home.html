@@ -1,26 +1,288 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>FormStream</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FormStream · Заглушка</title>
+    <style>
+        /* Обнуление и базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0e14;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+        }
+
+        /* Основной блок — точная копия макета */
+        .terminal {
+            max-width: 780px;
+            width: 100%;
+            background: #141a22;
+            border-radius: 20px;
+            border: 1px solid #2a313c;
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            padding: 28px 32px 32px;
+            transition: all 0.2s ease;
+        }
+
+        /* Верхняя строка: FormStream + статус */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #262e3a;
+            padding-bottom: 16px;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #eef2f8;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-badge {
+            background: #2b7aff;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-left: 4px;
+        }
+
+        .dev-status {
+            background: #1f2a36;
+            color: #9bb7e0;
+            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid #2f3b4b;
+            letter-spacing: 0.2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dev-status::before {
+            content: "●";
+            color: #f5b342;
+            font-size: 12px;
+            display: inline-block;
+            animation: pulse-dot 1.8s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* Заголовок */
+        .main-title {
+            text-align: center;
+            margin: 20px 0 30px;
+        }
+
+        .main-title h1 {
+            color: #eef2f8;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .main-title h1 span {
+            color: #6c8fc7;
+        }
+
+        .main-title .sub {
+            color: #7e93ae;
+            font-size: 16px;
+            margin-top: 8px;
+            letter-spacing: 0.2px;
+            border-top: 1px dashed #28303d;
+            padding-top: 12px;
+            display: inline-block;
+        }
+
+        /* Блок с двумя кнопками */
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 28px 0 36px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #1f2835;
+            border: 1px solid #2e3a4a;
+            color: #d3e0f0;
+            padding: 14px 38px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: default;
+            transition: 0.15s;
+            letter-spacing: 0.2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #2b7aff;
+            border-color: #3b8aff;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(43, 122, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #3f8aff;
+            transform: scale(1.02);
+        }
+
+        .btn-outline:hover {
+            background: #1f2a38;
+            border-color: #4a5b72;
+        }
+
+        /* Список возможностей — 4 колонки */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 28px;
+            background: #0f1620;
+            border-radius: 16px;
+            padding: 22px 28px;
+            border: 1px solid #232c3a;
+            margin-bottom: 28px;
+        }
+
+        .feature-item {
+            color: #cbdbe9;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 450;
+        }
+
+        .feature-item::before {
+            content: "✔";
+            color: #3b9eff;
+            font-weight: 600;
+            font-size: 18px;
+            width: 22px;
+            display: inline-block;
+        }
+
+        /* Футер: технологии + копирайт */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #232c3a;
+            padding-top: 18px;
+            margin-top: 6px;
+            color: #667e9e;
+            font-size: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .tech-stack span {
+            background: #1a2330;
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid #29333f;
+            color: #9bb3d0;
+            font-size: 13px;
+        }
+
+        .copy {
+            color: #5a6f8a;
+            font-weight: 400;
+        }
+
+        /* Адаптив для маленьких экранов */
+        @media (max-width: 600px) {
+            .terminal { padding: 20px 16px; }
+            .main-title h1 { font-size: 26px; }
+            .actions { gap: 14px; }
+            .btn { padding: 12px 20px; font-size: 16px; min-width: 140px; }
+            .features { grid-template-columns: 1fr; gap: 10px; padding: 18px 20px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
-    <h1>FormStream</h1>
-    <p>Система автоматизации обработки клиентских анкет</p>
+    <div class="terminal">
 
-    <ul>
-        <li>Приём анкет торговых представителей</li>
-        <li>Проверка клиентских данных</li>
-        <li>Подготовка документов</li>
-        <li>Выгрузка данных для 1С</li>
-    </ul>
+        <!-- Шапка: логотип + статус -->
+        <div class="header">
+            <div class="logo">
+                FormStream
+                <span class="logo-badge">●</span>
+            </div>
+            <div class="dev-status">Development</div>
+        </div>
 
-    <p>
-        <a href="/applications/">Новая анкета</a>
-    </p>
+        <!-- Заголовок -->
+        <div class="main-title">
+            <h1>
+                Система автоматизации<br />
+                <span>обработки клиентских анкет</span>
+            </h1>
+            <div class="sub">заглушка · бэкенд в разработке</div>
+        </div>
 
-    <p>
-        <a href="/admin/">Панель администратора</a>
-    </p>
+        <!-- Кнопки-заглушки -->
+        <div class="actions">
+            <div class="btn btn-primary">Новая анкета</div>
+            <div class="btn btn-outline">Админ-панель</div>
+        </div>
+
+        <!-- Возможности системы (4 пункта) -->
+        <div class="features">
+            <div class="feature-item">Проверка адресов</div>
+            <div class="feature-item">Работа с документами</div>
+            <div class="feature-item">Выгрузка в 1С</div>
+            <div class="feature-item">Локальная база данных</div>
+        </div>
+
+        <!-- Футер: технологии + год -->
+        <div class="footer">
+            <div class="tech-stack">
+                <span>Python</span>
+                <span>Django</span>
+                <span>PostgreSQL</span>
+            </div>
+            <div class="copy">© 2026 FormStream</div>
+        </div>
+
+    </div>
 </body>
 </html>

@@ -9,7 +9,7 @@ PAYMENT_TYPES= [
         ('crypto', 'Криптовалюта'),
     ]
 
-OPERATIONS_CHOICES = [
+OPERATION_TYPE_CHOICES = [
     ('new_client', 'Новый клиент'),
     ('rename', 'Переименовать клиента'),
     ('add_adress', 'Добавить адресс'),
@@ -31,8 +31,8 @@ STATUS_CHOICES = [
 class Application(models.Model):
     operations_type = models.CharField(
         max_length=255,
-        choices=OPERATIONS_CHOICES,
-        default=OPERATIONS_CHOICES[0][0],
+        choices=OPERATION_TYPE_CHOICES,
+        default=OPERATION_TYPE_CHOICES[0][0],
     )
     payment_type = models.CharField(
         max_length=255,
@@ -44,15 +44,15 @@ class Application(models.Model):
     client_name = models.TextField(
         max_length=255,
     )
-    inn = models.IntegerField(max_length=12, blank=False, null=False)
+    inn = models.CharField(max_length=255, blank=False, null=False)
     kpp = models.CharField(max_length=255, blank=False, null=False)
     legal_address = models.TextField(max_length=255, blank=False, null=False)
     actual_address = models.TextField(max_length=255, blank=False, null=False)
     delivery_address = models.TextField(max_length=255, blank=False, null=False)
-    gps_coordinates = models.IntegerField(blank=False, null=False)
+    gps_coordinates = models.CharField(blank=False, null=False)
     contact_person = models.TextField(max_length=255, blank=False, null=False)
-    contact_phone = models.IntegerField(blank=False, null=False, max_length=11)
-    delivery_start_time = models.DateTimeField(blank=False, null=False)
-    delivery_end_time = models.DateTimeField(blank=False, null=False)
-    break_start_time = models.DateTimeField(blank=False, null=False)
-    break_end_time = models.DateTimeField(blank=False, null=False)
+    contact_phone = models.CharField(blank=False, null=False, max_length=255)
+    delivery_start_time = models.TimeField(blank=False, null=False)
+    delivery_end_time = models.TimeField(blank=False, null=False)
+    break_start_time = models.TimeField(blank=False, null=False)
+    break_end_time = models.TimeField(blank=False, null=False)

@@ -44,16 +44,14 @@ class Application(models.Model):
         default="new",
         verbose_name="Статус",
     )
-    client_name = models.TextField(
-        max_length=255,
-    )
+    client_name = models.CharField(max_length=255)
+    contact_person = models.CharField(max_length=255)
     inn = models.CharField(max_length=255, blank=False, null=False)
     kpp = models.CharField(max_length=255, blank=False, null=False)
     legal_address = models.TextField(max_length=255, blank=False, null=False)
     actual_address = models.TextField(max_length=255, blank=False, null=False)
     delivery_address = models.TextField(max_length=255, blank=False, null=False)
     gps_coordinates = models.CharField(blank=False, null=False)
-    contact_person = models.TextField(max_length=255, blank=False, null=False)
     contact_phone = models.CharField(blank=False, null=False, max_length=255)
     delivery_start_time = models.TimeField(blank=False, null=False)
     delivery_end_time = models.TimeField(blank=False, null=False)

@@ -1,30 +1,28 @@
 from django.db import models
-from django.conf import settings
 
-PAYMENT_TYPES= [
-        ('cash', 'Наличные'),
-        ('card', 'Банковская карта'),
-        ('transfer', 'Банковский перевод'),
-        ('online', 'Онлайн оплата'),
-        ('crypto', 'Криптовалюта'),
-    ]
+
 
 OPERATION_TYPE_CHOICES = [
-    ('new_client', 'Новый клиент'),
-    ('rename', 'Переименовать клиента'),
-    ('add_adress', 'Добавить адресс'),
-    ('payment_change', 'Изменения формы оплаты')
+    ("new_client", "Новый клиент"),
+    ("rename_client", "Переименование клиента"),
+    ("add_address", "Добавить адрес существующему клиенту"),
+    ("change_payment", "Изменение формы оплаты"),
+]
 
-    ]
-
+PAYMENT_TYPE_CHOICES = [
+    ("fact", "Факт"),
+    ("cashless", "Безналичная оплата"),
+    ("delivery_to_delivery", "От поставки до поставки"),
+    ("prepayment", "Предоплата"),
+]
 
 STATUS_CHOICES = [
-        ('new', 'Новый'),
-        ('confirm', 'Подтвержден'),
-        ('processing', 'В обработке'),
-        ('completed', 'Завершен'),
-        ('cancelled', 'Отменен'),
-    ]
+    ("new", "Новая"),
+    ("needs_review", "Требует проверки"),
+    ("approved", "Проверена"),
+    ("exported", "Выгружена"),
+    ("rejected", "Отклонена"),
+]
 
 
 
@@ -36,8 +34,8 @@ class Application(models.Model):
     )
     payment_type = models.CharField(
         max_length=255,
-        choices=PAYMENT_TYPES,
-        default=PAYMENT_TYPES[0][0]
+        choices=PAYMENT_TYPE_CHOICES,
+        default=PAYMENT_TYPE_CHOICES[0][0]
     )
 
     status = models.CharField(choices=STATUS_CHOICES, default='new', verbose_name='Status')

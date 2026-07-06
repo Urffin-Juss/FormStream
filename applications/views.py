@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from . import form
 from .form import ApplicationForm
 from .models import Application
 
@@ -23,10 +25,10 @@ def application_create(request):
     else:
         form = ApplicationForm()
 
-    return render(request, 'your_app/application_form.html', {'form': form})
+    return render(request, "application_form.html", {"form": form})
 
 
 def application_success(request, pk):
     """Страница успешного создания заявки"""
     application = Application.objects.get(pk=pk)
-    return render(request, 'your_app/application_success.html', {'application': application})
+    return render(request, "application_form.html", {"form": form})

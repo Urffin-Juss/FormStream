@@ -261,7 +261,11 @@
 
         <!-- Кнопки-заглушки -->
         <div class="actions">
-            <div class="btn btn-primary">Новая анкета</div>
+            <a href="{% url 'applications:application_create' %}" class="btn btn-primary">
+
+        Новая анкета
+
+            </a>
             <div class="btn btn-outline">Админ-панель</div>
         </div>
 

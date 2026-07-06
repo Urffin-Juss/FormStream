@@ -58,3 +58,6 @@ class Application(models.Model):
     has_break = models.BooleanField(default=False)
     break_start_time = models.TimeField(blank=True, null=True)
     break_end_time = models.TimeField(blank=True, null=True)
+    geo_check_status = models.CharField(default="new", max_length=255, choices=STATUS_CHOICES)
+    geo_check_message = models.TextField(max_length=255, blank=True, null=True)
+    geo_checked_at = models.TimeField(blank=True, null=True)

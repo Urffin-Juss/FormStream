@@ -19,7 +19,7 @@ def application_create(request):
             # Здесь потом добавим проверку адресов через DaData
             application = form.save()
             messages.success(request, f'Заявка #{application.id} успешно создана!')
-            return redirect('application_success', pk=application.id)
+            return redirect("applications:application_success", pk=application.id)
         else:
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме')
     else:
@@ -29,6 +29,9 @@ def application_create(request):
 
 
 def application_success(request, pk):
-    """Страница успешного создания заявки"""
     application = Application.objects.get(pk=pk)
-    return render(request, "application_form.html", {"form": form})
+    return render(
+        request,
+        "applications/application_success.html",
+        {"application": application}
+    )

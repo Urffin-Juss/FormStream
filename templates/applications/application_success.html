@@ -76,9 +76,27 @@
             font-size: 14px;
             font-weight: 500;
         }
+
+        /* СТАТУСЫ ЗАЯВКИ (бизнес) */
         .status-badge.new { background: #e8f0fe; color: #2b7aff; }
-        .status-badge.passed { background: #e6f7e6; color: #1a8c3a; }
-        .status-badge.failed { background: #fde8e8; color: #c0392b; }
+        .status-badge.processing { background: #fff3cd; color: #856404; }
+        .status-badge.approved { background: #d4edda; color: #155724; }
+        .status-badge.rejected { background: #f8d7da; color: #721c24; }
+        .status-badge.completed { background: #d1ecf1; color: #0c5460; }
+
+        /* СТАТУСЫ GPS (технический) */
+        .geo-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .geo-badge.pending { background: #f0f0f0; color: #6c757d; }
+        .geo-badge.passed { background: #d4edda; color: #155724; }
+        .geo-badge.failed { background: #f8d7da; color: #721c24; }
+        .geo-badge.manual { background: #fff3cd; color: #856404; }
+
         .btn-group-custom {
             display: flex;
             gap: 16px;
@@ -120,6 +138,16 @@
             font-size: 14px;
             margin-top: 20px;
         }
+        .geo-message-block {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .geo-message-block.passed { background: #e6f7e6; color: #1a6e3a; }
+        .geo-message-block.failed { background: #fde8e8; color: #a0322b; }
+        .geo-message-block.pending { background: #f0f0f0; color: #5a6a7a; }
+        .geo-message-block.manual { background: #fff3cd; color: #6a5a04; }
     </style>
 </head>
 <body>
@@ -128,30 +156,47 @@
             <!-- Иконка успеха -->
             <div class="success-icon">✅</div>
 
-            <h1 class="success-title">Заявка успешно создана!</h1>
+            <h1 class="success-title">Заявка зарегистрирована!</h1>
             <p class="success-subtitle">
                 Заявка №{{ application.id }} отправлена на обработку
             </p>
 
             <!-- Карточка с данными заявки -->
             <div class="application-card">
+                <!-- СТАТУС ЗАЯВКИ (бизнес-статус) -->
                 <div class="row">
-                    <div class="col-4 label">Статус</div>
+                    <div class="col-4 label">Статус заявки</div>
                     <div class="col-8 value">
-                        <span class="status-badge {{ application.geo_check_status|default:'new' }}">
+                        <span class="status-badge {{ application.status|default:'new' }}">
+                            {{ application.get_status_display|default:'Новая' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- СТАТУС ПРОВЕРКИ GPS (технический статус) -->
+                <div class="row">
+                    <div class="col-4 label">Проверка GPS</div>
+                    <div class="col-8 value">
+                        <span class="geo-badge {{ application.geo_check_status|default:'pending' }}">
                             {% if application.geo_check_status == 'passed' %}
-                                ✅ Координаты проверены
+                                ✅ Проверка пройдена
                             {% elif application.geo_check_status == 'failed' %}
-                                ❌ Ошибка координат
+                                ❌ Ошибка проверки
+                            {% elif application.geo_check_status == 'manual' %}
+                                ⚠️ Требуется проверка
                             {% else %}
                                 ⏳ Ожидает проверки
                             {% endif %}
                         </span>
                         {% if application.geo_check_message %}
-                            <small class="d-block text-muted mt-1">{{ application.geo_check_message }}</small>
+                            <div class="geo-message-block {{ application.geo_check_status|default:'pending' }}">
+                                {{ application.geo_check_message }}
+                            </div>
                         {% endif %}
                     </div>
                 </div>
+
+                <!-- Остальные данные -->
                 <div class="row">
                     <div class="col-4 label">Клиент</div>
                     <div class="col-8 value">{{ application.client_name }}</div>
@@ -187,11 +232,22 @@
                 </div>
             </div>
 
-
-
+            <!-- Кнопки действий -->
+            <div class="btn-group-custom">
+                <a href="{% url 'applications:application_create' %}" class="btn-primary-custom">➕ Создать новую</a>
+                <a href="{% url 'admin:index' %}" class="btn-outline-custom">📋 Перейти в админку</a>
+            </div>
 
             <div class="footer-note">
-                Все данные сохранены. Статус заявки можно отслеживать в админ-панели.
+                {% if application.geo_check_status == "passed" %}
+                    ✅ GPS координаты успешно проверены автоматически. Заявка готова к дальнейшей обработке.
+                {% elif application.geo_check_status == "failed" %}
+                    ❌ Обнаружена ошибка в GPS координатах. Пожалуйста, проверьте данные.
+                {% elif application.geo_check_status == "manual" %}
+                    ⚠️ Требуется ручная проверка координат оператором.
+                {% else %}
+                    ⏳ Заявка сохранена, проверка GPS будет выполнена автоматически.
+                {% endif %}
             </div>
         </div>
     </div>

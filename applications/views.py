@@ -15,14 +15,17 @@ def application_create(request):
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
         if form.is_valid():
-            # Здесь потом добавим проверку адресов через DaData
+
             application = form.save()
 
             check_application_gps(application)
 
 
 
+
+
             messages.success(request, f'Заявка #{application.id} успешно создана!')
+
             return redirect("applications:application_success", pk=application.id)
         else:
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме')

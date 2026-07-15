@@ -1,8 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
-from applications import geo
 from .form import ApplicationForm
 from .geo import check_application_gps
 from .models import Application

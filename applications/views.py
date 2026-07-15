@@ -2,8 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from . import form
+from applications import geo
 from .form import ApplicationForm
+from .geo import check_application_gps
 from .models import Application
 
 def index(request):
@@ -18,6 +19,11 @@ def application_create(request):
         if form.is_valid():
             # Здесь потом добавим проверку адресов через DaData
             application = form.save()
+
+            check_application_gps(application)
+
+
+
             messages.success(request, f'Заявка #{application.id} успешно создана!')
             return redirect("applications:application_success", pk=application.id)
         else:

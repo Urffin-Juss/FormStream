@@ -2,8 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .form import ApplicationForm
-from applications.services.geo import check_application_gps
+from applications.services.validations import validate_application
 from .models import Application
+
 
 def index(request):
     return HttpResponse("FormStream: applications works")
@@ -18,7 +19,7 @@ def application_create(request):
 
             application = form.save()
 
-            check_application_gps(application)
+            validate_application(application)
 
 
 
